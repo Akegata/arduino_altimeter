@@ -30,8 +30,6 @@ int num_leds = 4;    // Set number of LEDs
 
 double baseline;
 
-int altinc; // Altitude increments - Distance from exit to breakoff divided by 8 (number of LEDs).
-
 int startup = 0;
 int altreached = 0;
 
@@ -55,7 +53,6 @@ int blinkLEDColors(int nr_leds, int color, int on_time, int off_time) {
   delay(off_time);
 }
 
-
 void setup() {
   Serial.begin(9600);
 
@@ -66,13 +63,10 @@ void setup() {
     while (1);
   }
 
-  altinc = ((exitalt - breakalt) / 8);
-
   baseline = getPressure();
   strip.begin();
   strip.show();
 }
-
 
 void loop() {
 
@@ -88,7 +82,7 @@ void loop() {
     startup = 1;
   }
 
-  if (altreached == 0 && agl > (breakalt + (altinc * 6))) { // Blinks green five times when approaching altitude.
+  if (altreached == 0 && agl > 3500) { // Blinks green five times when approaching altitude.
     for(uint16_t i=0; i<5; i++) {
       setLEDColors(num_leds, green);
       delay(100);
