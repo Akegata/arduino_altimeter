@@ -12,21 +12,21 @@ SFE_BMP180 pressure;
 #define PIN 2
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(4, PIN, NEO_GRB + NEO_KHZ800);
 
-uint32_t blue = strip.Color(0, 0, 255);
-uint32_t cyan = strip.Color(36, 182, 255);
-uint32_t cyan_dim = strip.Color(0, 20, 20);
-uint32_t green = strip.Color(0, 255, 0);
-uint32_t red = strip.Color(255, 0, 0);
-uint32_t violet = strip.Color(109, 36, 255);
+uint32_t blue      = strip.Color(0, 0, 255);
+uint32_t cyan      = strip.Color(36, 182, 255);
+uint32_t cyan_dim  = strip.Color(0, 20, 20);
+uint32_t green     = strip.Color(0, 255, 0);
+uint32_t red       = strip.Color(255, 0, 0);
+uint32_t violet    = strip.Color(109, 36, 255);
 uint32_t white_dim = strip.Color(20, 20, 20);
-uint32_t yellow = strip.Color(255, 255, 0);
-uint32_t off = strip.Color(0, 0, 0);
+uint32_t yellow    = strip.Color(255, 255, 0);
+uint32_t off       = strip.Color(0, 0, 0);
 
-int exitalt = 4000; // Set exit altitude.
+int exitalt  = 4000; // Set exit altitude.
 int breakalt = 1500; // Set breakoff altitude.
-int pullalt = 1000; // Set pull altitude.
-int harddeck = 700; // Set hard deck.
-int num_leds = 4; // Set number of LEDs
+int pullalt  = 1000; // Set pull altitude.
+int harddeck = 700;  // Set hard deck.
+int num_leds = 4;    // Set number of LEDs
 
 double baseline;
 
@@ -97,29 +97,29 @@ void loop() {
     altreached = 1;
   }
 
-  if (altreached == 0 && agl < 1000) { // Blinks green every five seconds before 1,000' AGL.
+  if (altreached == 0 && agl < 300) { // Blinks green every five seconds before 300 AGL.
     blinkLEDColors(num_leds,green,100,5000);
   } 
 
-  if (altreached == 1 && agl > 3500) {  // Above breakoff altitude plus 7 altitude increments.
+  if (altreached == 1 && agl > 3500) {
     setLEDColors(num_leds,blue);
   }
-  else if (altreached == 1 && agl < 3500 && agl > 3000) { // Above breakoff altitude plus 6 altitude increments.
+  else if (altreached == 1 && agl < 3500 && agl > 3000) {
     blinkLEDColors(num_leds,blue,1000,1000);
   }
-  else if (altreached == 1 && agl < 3000 && agl > 2500) { // Above breakoff altitude plus 5 altitude increments.
+  else if (altreached == 1 && agl < 3000 && agl > 2500) {
     setLEDColors(num_leds,green);
   }
-  else if (altreached == 1 && agl < 2500 && agl > 2000) { // Above breakoff altitude plus 4 altitude increments.
+  else if (altreached == 1 && agl < 2500 && agl > 2000) {
     blinkLEDColors(num_leds,green,1000,1000);
   }
-  else if (altreached == 1 && agl < 2000 && agl > 1500) { // Above breakoff altitude plus 4 altitude increments.
+  else if (altreached == 1 && agl < 2000 && agl > 1500) {
     setLEDColors(num_leds,yellow);
   }
-  else if (altreached == 1 && agl < 1500 && agl > 1000) { // Above breakoff altitude plus 4 altitude increments.
+  else if (altreached == 1 && agl < 1500 && agl > 1000) {
     blinkLEDColors(num_leds,red,1000,1000);
   }
-  else if (altreached == 1 && agl < 1000) { // Above breakoff altitude plus 4 altitude increments.
+  else if (altreached == 1 && agl < 1000) {
     blinkLEDColors(num_leds,red,300,300);
   }
 }
