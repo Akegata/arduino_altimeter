@@ -33,21 +33,21 @@ double baseline;
 int startup = 0;
 int altreached = 0;
 
-int setLEDColors(int nr_leds, int color) {
+int setLEDColors(int nr_leds, uint32_t color) {
   for(uint16_t i=0; i<nr_leds; i++) {
       strip.setPixelColor(i, color);
   }
   strip.show();
 }
 
-int blinkLEDColors(int nr_leds, int color, int on_time, int off_time) {
+int blinkLEDColors(int nr_leds, uint32_t color, int on_time, int off_time) {
   for(uint16_t i=0; i<nr_leds; i++) {
-      strip.setPixelColor(i, color);
+    strip.setPixelColor(i, color);
   }
   strip.show();
   delay(on_time);
   for(uint16_t i=0; i<nr_leds; i++) {
-      strip.setPixelColor(i, off);
+    strip.setPixelColor(i, off);
   }
   strip.show();
   delay(off_time);
@@ -69,16 +69,16 @@ void setup() {
 }
 
 void loop() {
-
   double a, P;
   P = getPressure();
   a = pressure.altitude(P, baseline);
   int agl = a;
 
   if (startup == 0) { // Violet through all LEDs on startup. Sets startup variable to 1.
-    setLEDColors(4, violet);
+    setLEDColors(num_leds, violet);
     delay(1000);
     setLEDColors(num_leds, off);
+    delay(1000);
     startup = 1;
   }
 
@@ -92,7 +92,7 @@ void loop() {
   }
 
   if (altreached == 0 && agl < 300) { // Blinks green every five seconds before 300 AGL.
-    blinkLEDColors(num_leds,green,100,5000);
+    blinkLEDColors(1,green,100,10000);
   } 
 
   if (altreached == 1 && agl > 3500) {
@@ -111,15 +111,12 @@ void loop() {
     setLEDColors(num_leds,yellow);
   }
   else if (altreached == 1 && agl < 1500 && agl > 1000) {
-    blinkLEDColors(num_leds,red,1000,1000);
+    setLEDColors(num_leds,red);
   }
   else if (altreached == 1 && agl < 1000) {
     blinkLEDColors(num_leds,red,300,300);
   }
 }
-
-
-
 
 double getPressure() {
   char status;
